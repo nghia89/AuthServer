@@ -2,13 +2,14 @@
 using AuthorizationServer.Contracts;
 using AuthorizationServer.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
 namespace AuthorizationServer.Persistence;
 
-public class AuthServerContext : DbContext
+public class AuthServerContext : IdentityDbContext<AppUser, AppRole, Guid>
 {
     public AuthServerContext(DbContextOptions<AuthServerContext> options) : base(options)
     {
