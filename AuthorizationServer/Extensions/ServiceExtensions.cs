@@ -42,7 +42,7 @@ public static class ServiceExtensions
         services.AddDbContext<AuthServerContext>(m => m.UseMySql(builder.ConnectionString,
             ServerVersion.AutoDetect(builder.ConnectionString), e =>
             {
-                e.MigrationsAssembly("AuthServer");
+                e.MigrationsAssembly("AuthorizationServer");
                 e.SchemaBehavior(MySqlSchemaBehavior.Ignore);
             }));
 
