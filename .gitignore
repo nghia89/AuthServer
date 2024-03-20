@@ -362,3 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Recruitment.Api/appsettings.Production.json
+AuthorizationServer/bin/Debug/net8.0/AuthorizationServer.deps.json
+*.json
+*.json
+/AuthorizationServer/bin

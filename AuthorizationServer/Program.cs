@@ -1,4 +1,5 @@
 using AuthorizationServer.Extensions;
+using AuthorizationServer.Persistence;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         });
 builder.Services.AddConfigurationSettings(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
+
 var app = builder.Build();
 
 
@@ -35,5 +37,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-
-app.Run();
+app.MigrateDatabase<AuthServerContext>((context, services) =>
+    {
+        var logger = services.GetService<ILogger<AuthServerContextSeed>>();
+        new AuthServerContextSeed().SeedAsync(context, logger);
+    }).Run();
