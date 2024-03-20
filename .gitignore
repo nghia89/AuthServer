@@ -366,3 +366,4 @@ AuthorizationServer/bin/Debug/net8.0/AuthorizationServer.deps.json
 *.json
 *.json
 /AuthorizationServer/bin
+/AuthorizationServer/obj
