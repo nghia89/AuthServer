@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AuthorizationServer.ViewModels;
+using OpenIddict.Server.AspNetCore;
 namespace AuthorizationServer.Controllers
 {
     public class AccountController : Controller
@@ -47,11 +48,17 @@ namespace AuthorizationServer.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return SignOut(
+                authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = "/"
+                });
         }
     }
 }
