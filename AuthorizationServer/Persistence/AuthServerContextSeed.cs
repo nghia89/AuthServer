@@ -2,10 +2,6 @@
 using AuthorizationServer.Contracts;
 using AuthorizationServer.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 
 namespace AuthorizationServer.Persistence;
 

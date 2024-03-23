@@ -39,13 +39,21 @@ public static class ServiceExtensions
         var databaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
         var builder = new MySqlConnectionStringBuilder(databaseSettings.ConnectionString);
 
-        services.AddDbContext<AuthServerContext>(m => m.UseMySql(builder.ConnectionString,
-            ServerVersion.AutoDetect(builder.ConnectionString), e =>
-            {
-                e.MigrationsAssembly("AuthorizationServer");
-                e.SchemaBehavior(MySqlSchemaBehavior.Ignore);
-            }));
+        services.AddDbContext<AuthServerContext>(options =>
+                {
+                    // Configure the context to use sqlite.
+                    options.UseMySql(builder.ConnectionString,
+                    ServerVersion.AutoDetect(builder.ConnectionString), e =>
+                    {
+                        e.MigrationsAssembly("AuthorizationServer");
+                        e.SchemaBehavior(MySqlSchemaBehavior.Ignore);
+                    });
 
+                    // Register the entity sets needed by OpenIddict.
+                    // Note: use the generic overload if you need
+                    // to replace the default OpenIddict entities.
+                    options.UseOpenIddict();
+                });
         return services;
     }
 
