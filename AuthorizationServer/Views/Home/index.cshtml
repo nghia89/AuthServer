@@ -28,8 +28,11 @@
     <div>
         <p>You are not signed in</p>
 
-        <form asp-controller="Account" asp-action="Login" method="post">
+        <form asp-controller="Account" asp-action="Login" method="get">
             <button type="submit">Sing in</button>
+        </form>
+        <form asp-controller="Account" asp-action="Register" method="get">
+            <button type="submit">Register</button>
         </form>
     </div>
 }

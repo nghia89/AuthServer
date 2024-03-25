@@ -1,7 +1,10 @@
 ﻿
+using AuthorizationServer.Entities;
 using AuthorizationServer.Persistence;
 using AuthorizationServer.Shared;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using MySqlConnector;
@@ -39,7 +42,7 @@ public static class ServiceExtensions
         var databaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
         var builder = new MySqlConnectionStringBuilder(databaseSettings.ConnectionString);
 
-        services.AddDbContext<AuthServerContext>(options =>
+        services.AddDbContextPool<AuthServerContext>(options =>
                 {
                     // Configure the context to use sqlite.
                     options.UseMySql(builder.ConnectionString,
@@ -54,6 +57,9 @@ public static class ServiceExtensions
                     // to replace the default OpenIddict entities.
                     options.UseOpenIddict();
                 });
+        services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<AuthServerContext>()
+                .AddDefaultTokenProviders();
         return services;
     }
 
